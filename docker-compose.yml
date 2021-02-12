@@ -1,0 +1,13 @@
+version: "3.8"
+
+services: 
+  app:
+    container_name: "warteg"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7200:7200"
+    environment:
+      APP_ENV: "development"
+    restart: unless-stopped
