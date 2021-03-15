@@ -1,0 +1,4 @@
+2021-03-10T12:59:15.543+0700	[34mINFO[0m	init/init_config.go:13	Executing init/config
+2021-03-10T12:59:15.543+0700	[34mINFO[0m	init/init_config.go:18	err: open config/app/development.yml: no such file or directory
+2021-03-10T12:59:15.543+0700	[34mINFO[0m	init/init_config.go:44	Config- APP_ENV: 
+2021-03-10T12:59:15.543+0700	[31mFATAL[0m	init/init_auth.go:11	auth.private_key can not be empty

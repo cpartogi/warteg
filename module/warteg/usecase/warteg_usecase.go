@@ -9,13 +9,11 @@ import (
 	"github.com/cpartogi/warteg/schema/response"
 )
 
-// AuthUsecase will create a usecase with its required repo
 type WartegUsecase struct {
 	wartegRepo     warteg.Repository
 	contextTimeout time.Duration
 }
 
-// NewAuthUsecase will create new an contactUsecase object representation of auth.Usecase
 func NewWartegUsecase(ar warteg.Repository, timeout time.Duration) warteg.Usecase {
 	return &WartegUsecase{
 		wartegRepo:     ar,
