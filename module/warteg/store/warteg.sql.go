@@ -41,11 +41,7 @@ func (q *Queries) WartegAdd(ctx context.Context, addw request.Warteg) (wt respon
 		return
 	}
 
-	rows, err := result.RowsAffected()
-
-	if err != nil {
-		return
-	}
+	rows, _ := result.RowsAffected()
 
 	if rows != 1 {
 		return
@@ -73,11 +69,7 @@ func (q *Queries) WartegDelete(ctx context.Context, warteg_id string) (wt respon
 		return
 	}
 
-	rows, err := result.RowsAffected()
-
-	if err != nil {
-		return
-	}
+	rows, _ := result.RowsAffected()
 
 	if rows != 1 {
 		err = constant.ErrNotFound

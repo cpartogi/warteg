@@ -12,45 +12,46 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-// func TestWartegAdd(t *testing.T) {
-// 	resWartegAdd := response.WartegAdd{}
-// 	mockRepo := new(mocks.Repository)
+func TestNewWartegUsecase(t *testing.T) {
+	mockWarteg := new(mocks.Usecase)
+	NewWartegUsecase(mockWarteg, 5)
+}
 
-// 	mockWartegAdd := request.Warteg{
-// 		WartegName:        "nama warteg",
-// 		WartegDesc:        "deskripsi warteg",
-// 		WartegAddr:        "alamat warteg",
-// 		WartegContactName: "nama kontak warteg",
-// 		WartegPhone:       "09223422",
-// 	}
+func TestWartegAdd(t *testing.T) {
+	resWartegAdd := response.WartegAdd{}
+	mockRepo := new(mocks.Repository)
 
-// 	t.Run("Success", func(t *testing.T) {
-// 		tempWartegAdd := mockWartegAdd
-// 		u := NewWartegUsecase(mockRepo, 2)
+	mockWartegAdd := request.Warteg{
+		WartegName:        "nama warteg",
+		WartegDesc:        "deskripsi warteg",
+		WartegAddr:        "alamat warteg",
+		WartegContactName: "nama kontak warteg",
+		WartegPhone:       "09223422",
+	}
 
-// 		mockRepo.On("WartegAdd", mock.Anything, mock.AnythingOfType("request.Warteg")).
-// 			Return(resWartegAdd, nil).Once()
+	t.Run("Success", func(t *testing.T) {
+		tempWartegAdd := mockWartegAdd
+		u := NewWartegUsecase(mockRepo, 2)
 
-// 		_, err := u.WartegAdd(context.TODO(), tempWartegAdd)
-// 		assert.NoError(t, err)
-// 		assert.Equal(t, mockWartegAdd.WartegName, tempWartegAdd.WartegName)
-// 		mockRepo.AssertExpectations(t)
-// 	})
+		mockRepo.On("WartegAdd", mock.Anything, mock.AnythingOfType("request.Warteg")).
+			Return(resWartegAdd, nil).Once()
 
-// 	t.Run("failed", func(t *testing.T) {
-// 		tempWartegAdd := mockWartegAdd
-// 		u := NewWartegUsecase(mockRepo, 2)
+		_, err := u.WartegAdd(context.TODO(), tempWartegAdd)
+		assert.NoError(t, err)
+	})
 
-// 		mockRepo.On("WartegAdd", mock.Anything, mock.AnythingOfType("request.Warteg")).
-// 			Return(resWartegAdd, errors.New("error")).Once()
+	t.Run("failed", func(t *testing.T) {
+		tempWartegAdd := mockWartegAdd
+		u := NewWartegUsecase(mockRepo, 2)
 
-// 		_, err := u.WartegAdd(context.TODO(), tempWartegAdd)
-// 		assert.Error(t, err)
-// 		assert.Equal(t, mockWartegAdd.WartegName, tempWartegAdd.WartegName)
-// 		mockRepo.AssertExpectations(t)
-// 	})
+		mockRepo.On("WartegAdd", mock.Anything, mock.AnythingOfType("request.Warteg")).
+			Return(resWartegAdd, errors.New("apa deh")).Once()
 
-// }
+		_, err := u.WartegAdd(context.TODO(), tempWartegAdd)
+		assert.Error(t, err)
+	})
+
+}
 
 func TestWartegDelete(t *testing.T) {
 	resWartegDelete := response.WartegDelete{}
@@ -67,23 +68,18 @@ func TestWartegDelete(t *testing.T) {
 
 		_, err := u.WartegDelete(context.TODO(), tempWartegDelete)
 		assert.NoError(t, err)
-		assert.Equal(t, mockWartegDelete, tempWartegDelete)
-		mockRepo.AssertExpectations(t)
 	})
 
-	// t.Run("failed", func(t *testing.T) {
-	// 	tempWartegDelete := mockWartegDelete
-	// 	u := NewWartegUsecase(mockRepo, 2)
+	t.Run("failed", func(t *testing.T) {
+		tempWartegDelete := mockWartegDelete
+		u := NewWartegUsecase(mockRepo, 2)
 
-	// 	mockRepo.On("WartegDelete", mock.Anything, "234234").
-	// 		Return(resWartegDelete, errors.New("error")).Once()
+		mockRepo.On("WartegDelete", mock.Anything, "234234").
+			Return(resWartegDelete, errors.New("apa deh")).Once()
 
-	// 	_, err := u.WartegDelete(context.TODO(), tempWartegDelete)
-	// 	assert.Error(t, err)
-	// 	assert.Equal(t, mockWartegDelete, tempWartegDelete)
-	// 	mockRepo.AssertExpectations(t)
-	// })
-
+		_, err := u.WartegDelete(context.TODO(), tempWartegDelete)
+		assert.Error(t, err)
+	})
 }
 
 func TestWartegUpdate(t *testing.T) {
@@ -108,8 +104,6 @@ func TestWartegUpdate(t *testing.T) {
 
 		_, err := u.WartegUpdate(context.TODO(), mockWartegId, tempWartegUpdate)
 		assert.NoError(t, err)
-		assert.Equal(t, mockWartegUpdate.WartegName, tempWartegUpdate.WartegName)
-		mockRepo.AssertExpectations(t)
 	})
 
 	t.Run("failed", func(t *testing.T) {
@@ -117,13 +111,12 @@ func TestWartegUpdate(t *testing.T) {
 		u := NewWartegUsecase(mockRepo, 2)
 
 		mockRepo.On("WartegUpdate", mock.Anything, "abcdef", mock.AnythingOfType("request.WartegUpdate")).
-			Return(resWartegUpdate, errors.New("error")).Once()
+			Return(resWartegUpdate, errors.New("apa deh")).Once()
 
 		_, err := u.WartegUpdate(context.TODO(), mockWartegId, tempWartegUpdate)
 		assert.Error(t, err)
-		assert.Equal(t, mockWartegUpdate.WartegName, tempWartegUpdate.WartegName)
-		mockRepo.AssertExpectations(t)
 	})
+
 }
 
 func TestWartegList(t *testing.T) {
@@ -142,20 +135,18 @@ func TestWartegList(t *testing.T) {
 		_, err := u.WartegList(context.TODO(), mockWartegName)
 		assert.NoError(t, err)
 		assert.Equal(t, mockWartegName, tempWartegList)
-		mockRepo.AssertExpectations(t)
 	})
 
-	t.Run("Failed", func(t *testing.T) {
+	t.Run("failed", func(t *testing.T) {
 		tempWartegList := mockWartegName
 		u := NewWartegUsecase(mockRepo, 2)
 
 		mockRepo.On("WartegList", mock.Anything, "abcd").
-			Return(resWartegList, errors.New("error")).Once()
+			Return(resWartegList, errors.New("apa deh")).Once()
 
 		_, err := u.WartegList(context.TODO(), mockWartegName)
 		assert.Error(t, err)
 		assert.Equal(t, mockWartegName, tempWartegList)
-		mockRepo.AssertExpectations(t)
 	})
 }
 
@@ -175,19 +166,17 @@ func TestWartegDetail(t *testing.T) {
 		_, err := u.WartegDetail(context.TODO(), mockWartegId)
 		assert.NoError(t, err)
 		assert.Equal(t, mockWartegId, tempWartegDetail)
-		mockRepo.AssertExpectations(t)
 	})
 
-	t.Run("Failed", func(t *testing.T) {
+	t.Run("failed", func(t *testing.T) {
 		tempWartegDetail := mockWartegId
 		u := NewWartegUsecase(mockRepo, 2)
 
 		mockRepo.On("WartegDetail", mock.Anything, "abcd-efgh").
-			Return(resWartegDetail, errors.New("error")).Once()
+			Return(resWartegDetail, errors.New("apa deh")).Once()
 
 		_, err := u.WartegDetail(context.TODO(), mockWartegId)
 		assert.Error(t, err)
 		assert.Equal(t, mockWartegId, tempWartegDetail)
-		mockRepo.AssertExpectations(t)
 	})
 }
