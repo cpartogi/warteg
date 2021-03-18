@@ -82,3 +82,21 @@ func TestWartegAddQueryNoRows(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "", "")
 }
+
+func TestWartegDelete(t *testing.T) {
+	warteg_id := "abcdef"
+
+	db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
+
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+
+	mock.ExpectExec(deleteWarteg).WithArgs(warteg_id).WillReturnResult((sqlmock.NewResult(1, 1)))
+
+	a := NewStore(db)
+
+	_, err = a.WartegDelete(context.TODO(), warteg_id)
+
+	assert.NoError(t, err)
+}
